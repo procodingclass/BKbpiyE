@@ -5,6 +5,9 @@ const Constraint = Matter.Constraint;
 
 var engine, world;
 var ground;
+var gameState = "start";
+var ironBall;
+var nail;
 
 function preload() {
   ballImg = loadImage("images/basketball.png");
@@ -39,16 +42,16 @@ function setup() {
     {x:slantedPlank.body.position.x,
       y:slantedPlank.body.position.y}, 
       slantedPlank.body);*/
-  nail = new Sling(
+ /* nail = new Sling(
     {x:ground.body.position.x,
       y:ground.body.position.y}, 
-      ground.body);
+      ground.body);*/
 
  // Uncomment the correct line of code
   //ironBall = new Ball(250, 50, 60, ironImg);
   //ironBall = new Ball(250, 100, 60, ironImg);
   //ironBall = new Ball(250, 200, 60, ironImg);
-  ironBall = new Ball(250, 300, 60, ironImg);
+  //ironBall = new Ball(250, 300, 60, ironImg);
   
   ball = new Box(485, 390, 30,30, ironBall);
   
@@ -77,6 +80,7 @@ function draw() {
 
   var collision = Matter.SAT.collides(basketBottom.body, ball.body);
   if (collision.collided) {
+    gameState = "collided";
     Matter.Body.setPosition(slantedPlank.body,{x:350,y:430})
     Matter.Body.setStatic(slantedPlank.body, true);
   }
@@ -85,10 +89,11 @@ function draw() {
 }
 
 function mousePressed(){
-  
+  if(gameState === "start"){
   Matter.Body.setStatic(ironBall.body, false);
   Matter.Body.setStatic(slantedPlank.body, false);
   Matter.Body.setStatic(ball.body, false);
+  }
 }
 
 

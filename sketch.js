@@ -28,6 +28,7 @@ function setup() {
   basketLeft = new Box(300, 120, 15, 50,true);
   basketRight = new Box(400, 120, 15, 50,true);
   slantedPlank = new Box(350, 430, 300, 20,false); 
+  ball = new Box(485, 390, 30,30, ironBall);
 
   // Uncomment the correct line of code
   /*nail = new Sling(
@@ -53,7 +54,7 @@ function setup() {
   //ironBall = new Ball(250, 200, 60, ironImg);
   //ironBall = new Ball(250, 300, 60, ironImg);
   
-  ball = new Box(485, 390, 30,30, ironBall);
+  
   
 }
 
@@ -74,8 +75,10 @@ function draw() {
   basketBottom.display();
   basketLeft.display();
   basketRight.display();
-  nail.display();
   ball.displayWithImage(ballImg);
+  
+  nail.display();
+  
   ironBall.display();
 
   var collision = Matter.SAT.collides(basketBottom.body, ball.body);

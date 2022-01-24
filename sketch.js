@@ -6,12 +6,10 @@ const Constraint = Matter.Constraint;
 var engine, world;
 var ground;
 var gameState = "start";
-var ironBall;
-var nail;
 
 function preload() {
-  ballImg = loadImage("images/basketball.png");
-  ironImg = loadImage("images/ironball.png");
+  ballImg = loadImage("basketball.png");
+  ironImg = loadImage("ironball.png");
 }
 
 function setup() {
@@ -24,37 +22,26 @@ function setup() {
   rightWall = new Box(790, 250, 20, 500,true);
 
   stand = new Box(350, 450, 30, 50, true);
-  basketBottom = new Box(350, 150, 100, 20,true);
+  basketBottom = new Box(350, 150, 115, 20,true);
   basketLeft = new Box(300, 120, 15, 50,true);
   basketRight = new Box(400, 120, 15, 50,true);
-  slantedPlank = new Box(350, 430, 300, 20,false); 
+  slantedPlank = new Box(350, 430, 320, 20,false); 
+
+  // Change the line below to pass x and y position of 
+  //slantedPlank to the sling
+  /* Change the code below this line*/
+  nail = new Sling(
+    {x:basketLeft.body.position.x,
+      y:basketLeft.body.position.y}, 
+      slantedPlank.body);
+ 
+      
+  // Change the x-position of the ironBall
+  //so that the basketball falls into the basket.
+  /* Change the code below this line*/
+  ironBall = new Ball(50, 50, 60, ironImg);
+
   ball = new Box(485, 390, 30,30, ironBall);
-
-  // Uncomment the correct line of code
-  /*nail = new Sling(
-      {x:basketBottom.body.position.x,
-      y:basketBottom.body.position.y}, 
-      basketBottom.body);*/
-  /*nail = new Sling(
-    {x:stand.body.position.x,
-      y:stand.body.position.y},
-      stand.body);*/
-  /*nail = new Sling(
-    {x:slantedPlank.body.position.x,
-      y:slantedPlank.body.position.y}, 
-      slantedPlank.body);*/
- /* nail = new Sling(
-    {x:ground.body.position.x,
-      y:ground.body.position.y}, 
-      ground.body);*/
-
- // Uncomment the correct line of code
-  //ironBall = new Ball(250, 50, 60, ironImg);
-  //ironBall = new Ball(250, 100, 60, ironImg);
-  //ironBall = new Ball(250, 200, 60, ironImg);
-  //ironBall = new Ball(250, 300, 60, ironImg);
-  
-  
   
 }
 
@@ -63,8 +50,8 @@ function draw() {
   Engine.update(engine);
   textSize(20);
   
-  text("Click to drop the ball !!",500,100);
-  text("Drop the basket ball into the basket", 450,150);
+  text("Click to drop the ball.",500,150);
+  text("Drop the basketball into the basket.", 450,200);
   ground.display();
   leftWall.display();
   rightWall.display();
@@ -75,17 +62,16 @@ function draw() {
   basketBottom.display();
   basketLeft.display();
   basketRight.display();
-  ball.displayWithImage(ballImg);
-  
   nail.display();
-  
+  ball.displayWithImage(ballImg);
   ironBall.display();
 
+  // stop the slantedPlank from moving further. 
   var collision = Matter.SAT.collides(basketBottom.body, ball.body);
   if (collision.collided) {
     gameState = "collided";
-    Matter.Body.setPosition(slantedPlank.body,{x:350,y:430})
     Matter.Body.setStatic(slantedPlank.body, true);
+    Matter.Body.setPosition(slantedPlank.body,{x:350,y:430})
   }
 
   
@@ -93,13 +79,8 @@ function draw() {
 
 function mousePressed(){
   if(gameState === "start"){
-  Matter.Body.setStatic(ironBall.body, false);
-  Matter.Body.setStatic(slantedPlank.body, false);
-  Matter.Body.setStatic(ball.body, false);
+    Matter.Body.setStatic(ironBall.body, false);
+    Matter.Body.setStatic(slantedPlank.body, false);
+    Matter.Body.setStatic(ball.body, false);
   }
 }
-
-
-
-
-
